@@ -1,0 +1,56 @@
+@baseUrl = http://localhost:3000
+
+GET {{baseUrl}}
+
+###
+
+GET {{baseUrl}}/todos
+username: smith
+
+###
+
+GET {{baseUrl}}/todos/cfeaa801-bbf4-41bb-832c-d39effe5e13e
+username: smith
+
+###
+
+POST {{baseUrl}}/todos
+Content-Type: application/json
+username: smith
+
+{
+  "title": "Nome da tarefa",
+	"deadline": "2021-10-14"
+}
+
+###
+
+PUT {{baseUrl}}/todos/af20df8e-3b4b-43e3-a0b3-a6844a30c7de
+Content-Type: application/json
+username: smith
+
+{
+  "title": "Alteração Tarefa",
+	"deadline": "2021-12-12"
+}
+
+###
+
+PUT {{baseUrl}}/todos/invalid-todo-id
+Content-Type: application/json
+username: smith
+
+{
+  "title": "Alteração Tarefa",
+	"deadline": "2021-12-12"
+}
+
+###
+
+PATCH {{baseUrl}}/todos/02dd0cb2-70e9-4c1c-adca-b67f3409ee1c/done
+username: smith
+
+###
+
+DELETE {{baseUrl}}/todos/f7e2a8c6-7c62-47d5-9939-899744343f95
+username: smith

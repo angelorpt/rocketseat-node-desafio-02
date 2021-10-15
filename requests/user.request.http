@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:3000
+
+GET {{baseUrl}}
+
+### 
+
+GET {{baseUrl}}/users
+
+### 
+
+GET {{baseUrl}}/users/524fc392-25c2-447f-b5b6-6c976ab89fe3
+
+###
+
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{ 
+	"name": "Smith",
+	"username": "smith" 
+}
