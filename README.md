@@ -2,6 +2,8 @@
 
 Projeto Desafio para testas os conceitos de middlewares em uma API Expres.js
 
+[Clique aqui](desafio.md) para visualizar as especificações do desafio.
+
 <br>
 
 ## Instalação
