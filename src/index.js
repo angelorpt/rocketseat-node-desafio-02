@@ -105,7 +105,7 @@ function findUserById(req, res, next) {
     res.status(404).json({ error: "Usuário não encontrado" });
   }
 
-  const user = getuserById(id);
+  const user = getUserById(id);
   if (!user) return false;
   req.user = user;
   next();
