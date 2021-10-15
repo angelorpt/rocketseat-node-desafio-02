@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const expressListRoutes = require("express-list-routes");
 
 const { v4: uuidv4, validate } = require("uuid");
 
@@ -258,6 +259,8 @@ app.delete(
     return res.status(204).send();
   }
 );
+
+expressListRoutes(app);
 
 module.exports = {
   app,
