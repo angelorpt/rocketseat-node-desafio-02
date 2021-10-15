@@ -72,9 +72,14 @@ function getTodoById(username, id) {
 
 function checksExistsUserAccount(req, res, next) {
   const { username } = req.headers;
+  // return res.status(400).json({ error: "Username já está sendo usado" });
   if (!existsUserAccountByUsername(username)) {
-    return res.status(400).json({ error: "Username já está sendo usado" });
+    return res.status(404).json({ error: "User não encontrado" });
   }
+
+  const user = getUserByUsername(username);
+  req.user = user;
+
   return next();
 }
 
@@ -83,6 +88,8 @@ function checksCreateTodosUserAvailability(req, res, next) {
   const total = user.todos.length;
   if (user.pro === true || (user.pro === false && total < 10)) {
     next();
+  } else {
+    res.status(403).json({ error: "Não é possível criar um novo ToDo" });
   }
 }
 
@@ -90,10 +97,23 @@ function checksTodoExists(req, res, next) {
   const { username } = req.headers;
   const { id } = req.params;
 
-  const todo = getTodoById(username, id);
-  if (!todo) {
-    return res.status(404).json("ToDo não cadastrado");
+  if (!validate(id)) {
+    return res.status(400).json({ error: "ID não válido" });
   }
+
+  const userExists = existsUserAccountByUsername(username);
+  if (!userExists) {
+    return res.status(404).json({ error: "User não cadastrado" });
+  }
+
+  const todoExists = existsTodoByTodoId(username, id);
+  if (!todoExists) {
+    return res.status(404).json({ error: "ToDo não cadastrado" });
+  }
+
+  const user = getUserByUsername(username);
+  const todo = getTodoById(username, id);
+  req.user = user;
   req.todo = todo;
   next();
 }
@@ -170,6 +190,15 @@ app.get("/todos", checksExistsUserAccount, (req, res) => {
 
   return res.json(user.todos);
 });
+
+app.get(
+  "/todos/:id",
+  [checksExistsUserAccount, checksTodoExists],
+  (req, res) => {
+    const { todo } = req;
+    return res.json(todo);
+  }
+);
 
 app.post(
   "/todos",
